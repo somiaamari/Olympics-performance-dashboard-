@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 230">
+  <!-- Olympic Rings Watermark for LA28 Dashboard -->
+  <!-- Blue ring -->
+  <circle cx="85" cy="85" r="70" fill="none" stroke="#0081C8" stroke-width="12"/>
+  
+  <!-- Black ring -->
+  <circle cx="250" cy="85" r="70" fill="none" stroke="#000000" stroke-width="12"/>
+  
+  <!-- Red ring -->
+  <circle cx="415" cy="85" r="70" fill="none" stroke="#EE334E" stroke-width="12"/>
+  
+  <!-- Yellow ring -->
+  <circle cx="167" cy="145" r="70" fill="none" stroke="#FCB131" stroke-width="12"/>
+  
+  <!-- Green ring -->
+  <circle cx="333" cy="145" r="70" fill="none" stroke="#00A651" stroke-width="12"/>
+  
+  <!-- Interlocking overlaps - white breaks to show interlock effect -->
+  <!-- Blue-Yellow interlock -->
+  <path d="M120 120 A70 70 0 0 1 140 85" fill="none" stroke="#0081C8" stroke-width="12"/>
+  
+  <!-- Black-Yellow interlock -->
+  <path d="M185 120 A70 70 0 0 0 200 85" fill="none" stroke="#000000" stroke-width="12"/>
+  
+  <!-- Black-Green interlock -->
+  <path d="M285 120 A70 70 0 0 1 305 85" fill="none" stroke="#000000" stroke-width="12"/>
+  
+  <!-- Red-Green interlock -->
+  <path d="M350 120 A70 70 0 0 0 365 85" fill="none" stroke="#EE334E" stroke-width="12"/>
+</svg>

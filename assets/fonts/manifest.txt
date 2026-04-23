@@ -1,0 +1,39 @@
+# LA28 Olympics Glory Dashboard - Font Manifest
+
+## Required Fonts (Google Fonts)
+
+### Headers - Montserrat
+- Family: Montserrat
+- Weights: 400 (Regular), 600 (SemiBold), 700 (Bold)
+- CDN: https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap
+- Usage: Page titles, section headers, metric values
+
+### Body - Roboto
+- Family: Roboto
+- Weights: 300 (Light), 400 (Regular), 500 (Medium)
+- CDN: https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap
+- Usage: Body text, labels, descriptions, tooltips
+
+## Implementation
+
+Add to CSS:
+```css
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Roboto', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif !important;
+}
+```
+
+## Fallback Stack
+- Montserrat: 'Montserrat', 'Helvetica Neue', Arial, sans-serif
+- Roboto: 'Roboto', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif
+
+## Accessibility Notes
+- Minimum body font size: 16px
+- Line height: 1.5 for body, 1.2 for headers
+- WCAG 2.1 AA compliant with color palette
