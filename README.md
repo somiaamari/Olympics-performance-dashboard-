@@ -13,7 +13,7 @@ This project is a **Streamlit dashboard** for tracking and analyzing the perform
 ## Installation
 1. Clone the repository:
 ```bash
-git clone https://github.com/Mehda-Nessrine/olympics-performance-dashboard.git
+git clone https://github.com/somiaamari/Olympics-performance-dashboard-
 
 
 Navigate to the project folder:
