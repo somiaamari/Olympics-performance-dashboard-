@@ -311,7 +311,7 @@ if not venues_df.empty:
         venues_map = venues_df.dropna(subset=[lat_col, lon_col])
         
         if not venues_map.empty:
-            fig = px.scatter_mapbox(
+            fig = px.scatter_map(
                 venues_map,
                 lat=lat_col,
                 lon=lon_col,
@@ -320,7 +320,7 @@ if not venues_df.empty:
                 height=500,
             )
             fig.update_layout(
-                mapbox_style="open-street-map",
+                map={"style": "open-street-map"},
                 margin=dict(t=0, b=0, l=0, r=0),
             )
             st.plotly_chart(fig, use_container_width=True, key="venue_map")
@@ -346,7 +346,7 @@ if not venues_df.empty:
             ]
         })
         
-        fig = px.scatter_mapbox(
+        fig = px.scatter_map(
             paris_venues,
             lat="lat",
             lon="lon",
@@ -358,7 +358,7 @@ if not venues_df.empty:
         )
         fig.update_traces(marker=dict(size=15, color="#0033A0"))
         fig.update_layout(
-            mapbox_style="open-street-map",
+            map={"style": "open-street-map"},
             margin=dict(t=0, b=0, l=0, r=0),
         )
         st.plotly_chart(fig, use_container_width=True, key="venue_map_paris")
@@ -379,7 +379,7 @@ else:
         "lon": [2.3601, 2.2945, 2.3125, 2.2472, 2.2530, 2.3786],
     })
     
-    fig = px.scatter_mapbox(
+    fig = px.scatter_map(
         paris_venues,
         lat="lat",
         lon="lon",
@@ -388,7 +388,7 @@ else:
         height=450,
     )
     fig.update_traces(marker=dict(size=15, color="#0033A0"))
-    fig.update_layout(mapbox_style="open-street-map", margin=dict(t=0, b=0, l=0, r=0))
+    fig.update_layout(map={"style": "open-street-map"}, margin=dict(t=0, b=0, l=0, r=0))
     st.plotly_chart(fig, use_container_width=True, key="venue_map_default")
 
 st.divider()
