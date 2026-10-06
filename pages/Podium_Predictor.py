@@ -64,12 +64,13 @@ st.caption(
     f"Training used {metrics['train_rows']:,} athletes."
 )
 
-metric_columns = st.columns(5)
+metric_columns = st.columns(6)
 metric_columns[0].metric("ROC-AUC", f"{metrics['roc_auc']:.3f}")
-metric_columns[1].metric("Balanced accuracy", f"{metrics['balanced_accuracy']:.3f}")
-metric_columns[2].metric("F1", f"{metrics['f1']:.3f}")
-metric_columns[3].metric("Precision", f"{metrics['precision']:.3f}")
-metric_columns[4].metric("Recall", f"{metrics['recall']:.3f}")
+metric_columns[1].metric("Accuracy", f"{metrics['accuracy']:.3f}")
+metric_columns[2].metric("Balanced accuracy", f"{metrics['balanced_accuracy']:.3f}")
+metric_columns[3].metric("F1", f"{metrics['f1']:.3f}")
+metric_columns[4].metric("Precision", f"{metrics['precision']:.3f}")
+metric_columns[5].metric("Recall", f"{metrics['recall']:.3f}")
 
 st.info(
     "Limitations: this is a retrospective Paris 2024 association model, not a forecast for LA28. "
