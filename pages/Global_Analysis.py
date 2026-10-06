@@ -1,21 +1,19 @@
-# ===================================================================
-# 2_Globe_Global_Analysis.py → Modern Tabs Version
-# ===================================================================
+"""Paris 2024 Glory Path Dashboard global medal analysis."""
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from pathlib import Path
+from utils.data import load_required_csv
 
 # ------------------- CONFIG -------------------
-st.set_page_config(page_title="Global Analysis", page_icon="Globe", layout="wide")
+st.set_page_config(page_title="Paris 2024 Glory Path Dashboard", page_icon="🌍", layout="wide")
 
 # ------------------- DATA -------------------
-DATA_PATH = Path(__file__).parent.parent / "data"
 
 @st.cache_data
 def load_data():
-    medals = pd.read_csv(DATA_PATH / "medals.csv")
-    medals_total = pd.read_csv(DATA_PATH / "medals_total.csv")
+    medals = load_required_csv("medals.csv")
+    medals_total = load_required_csv("medals_total.csv")
     medals = medals.rename(columns={"country_code": "noc", "medal_type": "medal"})
     medals["medal"] = medals["medal"].str.replace(" Medal", "", regex=False)
     medals_total = medals_total.rename(columns={"country_code": "noc"})
@@ -55,11 +53,8 @@ st.markdown("""
 
 
 with st.sidebar:
-    st.image(
-        "https://upload.wikimedia.org/wikipedia/commons/5/5c/Olympic_rings_without_rims.svg",
-        width=130
-    )
-    st.markdown("## Globe Global Analysis")
+    st.title("Paris 2024 Glory Path Dashboard")
+    st.markdown("Global Analysis")
     countries = st.multiselect("Country (NOC)", sorted(medals_total_df["noc"].unique()))
     sports = st.multiselect("Sport", sorted(medals_df["discipline"].unique()))
     medal_sel = st.multiselect("Medal Type",
@@ -90,8 +85,8 @@ else:
 # ===================================================================
 # MAIN PAGE – TABS (super clean & modern)
 # ===================================================================
-st.markdown("# Globe Global Medal Analysis")
-st.markdown("### Paris 2024 Olympics")
+st.title("Paris 2024 Glory Path Dashboard")
+st.subheader("Global Analysis")
 st.markdown("---")
 
 # Create 4 beautiful tabs
@@ -158,7 +153,7 @@ with tab3:
         fig = px.bar(
             cont_melt, x="Continent", y="Count", color="Medal", barmode="group",
             text="Count",
-            color_discrete_map={"Gold":"#E50914", "Silver":"#AFAFAF", "Bronze":"#8B4513"}
+            color_discrete_map={"Gold":"#FFD700", "Silver":"#C0C0C0", "Bronze":"#CD7F32"}
         )
         fig.update_traces(textposition="outside")
         fig.update_layout(height=500)
@@ -176,7 +171,7 @@ with tab4:
         fig = px.bar(
             top_melt, x="Country", y="Count", color="Medal", barmode="group",
             text="Count",
-            color_discrete_map={"Gold":"#E50914", "Silver":"#AFAFAF", "Bronze":"#8B4513"}
+            color_discrete_map={"Gold":"#FFD700", "Silver":"#C0C0C0", "Bronze":"#CD7F32"}
         )
         fig.update_traces(textposition="outside")
         fig.update_layout(xaxis_tickangle=-45, height=550)
@@ -186,4 +181,4 @@ with tab4:
 
 # Footer
 st.markdown("---")
-st.caption("Paris 2024 – Global Analysis | Design by You")
+st.caption("Built for the LA28 Volunteer Selection Challenge")

@@ -1,13 +1,4 @@
-"""
-LA28 Olympics Dashboard - Page 1: Overview (Command Center)
-
-Provides high-level summary with KPIs and key visualizations.
-Per official requirements:
-- Title with description
-- 5 KPI Metrics (Athletes, Countries, Sports, Medals, Events)
-- Global Medal Distribution (Pie/Donut)
-- Top 10 Medal Standings (Horizontal Bar)
-"""
+"""Paris 2024 Glory Path Dashboard overview and medal command center."""
 
 import streamlit as st
 import pandas as pd
@@ -20,68 +11,49 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from utils.shared_filters import render_global_filters, apply_filters, get_continent
 from utils.style import apply_custom_style
+from utils.data import load_required_csv
 
 st.set_page_config(
     layout="wide",
-    page_title="LA28: The Golden State Scoreboard",
+    page_title="Paris 2024 Glory Path Dashboard",
     page_icon="🏅",
     initial_sidebar_state="expanded",
 )
 apply_custom_style()
 
-DATA_PATH = Path(__file__).parent / "data"
-
-
 @st.cache_data
 def load_athletes():
     """Load athletes data."""
-    try:
-        df = pd.read_csv(DATA_PATH / "athletes.csv")
-        df = df.rename(columns={"country_code": "noc"})
-        return df
-    except:
-        return pd.DataFrame()
+    df = load_required_csv("athletes.csv")
+    return df.rename(columns={"country_code": "noc"})
 
 
 @st.cache_data
 def load_medals_total():
     """Load medal totals by country."""
-    try:
-        df = pd.read_csv(DATA_PATH / "medals_total.csv")
-        df = df.rename(columns={"country_code": "noc"})
-        return df
-    except:
-        return pd.DataFrame()
+    df = load_required_csv("medals_total.csv")
+    return df.rename(columns={"country_code": "noc"})
 
 
 @st.cache_data
 def load_medals():
     """Load individual medals."""
-    try:
-        df = pd.read_csv(DATA_PATH / "medals.csv")
-        df = df.rename(columns={"country_code": "noc", "medal_type": "medal"})
-        df["medal"] = df["medal"].str.replace(" Medal", "", regex=False)
-        return df
-    except:
-        return pd.DataFrame()
+    df = load_required_csv("medals.csv")
+    df = df.rename(columns={"country_code": "noc", "medal_type": "medal"})
+    df["medal"] = df["medal"].str.replace(" Medal", "", regex=False)
+    return df
 
 
 @st.cache_data
 def load_events():
     """Load events data."""
-    try:
-        return pd.read_csv(DATA_PATH / "events.csv")
-    except:
-        return pd.DataFrame()
+    return load_required_csv("events.csv")
 
 
 @st.cache_data
 def load_nocs():
     """Load NOCs data."""
-    try:
-        return pd.read_csv(DATA_PATH / "nocs.csv")
-    except:
-        return pd.DataFrame()
+    return load_required_csv("nocs.csv")
 
 
 # Load all data
@@ -95,9 +67,8 @@ nocs_df = load_nocs()
 # SIDEBAR - GLOBAL FILTERS
 # =============================================================================
 with st.sidebar:
-    st.image("https://upload.wikimedia.org/wikipedia/commons/5/5c/Olympic_rings_without_rims.svg", width=150)
-    st.title("🥇 Paris 2024 Glory Path Dashboard!")
-    st.markdown(' Paris 2024 Dashboard — track performance, medals & athletes. Use sidebar filters to explore.')
+    st.title("Paris 2024 Glory Path Dashboard")
+    st.markdown("Paris 2024 performance, medals, and athlete insights.")
 
     
     # Get filter options
@@ -110,13 +81,12 @@ with st.sidebar:
         sports=all_sports,
     )
     st.divider()
-    st.caption("Built for LA28 Volunteer Selection Challenge")
+    st.caption("Built for the LA28 Volunteer Selection Challenge")
 
 # =============================================================================
 # APPLY FILTERS
 # =============================================================================
 filtered_medals = apply_filters(medals_df, filters)
-filtered_athletes = apply_filters(athletes_df, filters)
 
 # Recalculate totals based on filtered medals
 
@@ -150,45 +120,8 @@ if filters["continents"]:
 # HEADER
 # =============================================================================
 
-# 
-# =============================================================================
-# PROFESSIONAL HEADER
-# =============================================================================
-st.markdown(
-    """
-    <div style='text-align: left; padding: 2rem 0; border-bottom: 3px solid #FFD700;'>
-        <h1 style='
-            font-size: 3.2rem; 
-            font-weight: 700; 
-            color: #0033A0; 
-            margin: 0;
-            display: inline;
-        '>
-            Paris 2024 
-            <span style='color: #FFD700; font-weight: 800;'>Glory Path</span> Dashboard
-        </h1>
-    </div>
-    """, 
-    unsafe_allow_html=True
-)
-
-# Optional subtitle
-st.markdown(
-    """
-    <p style='
-        font-size: 1.2rem; 
-        color: #444; 
-        margin-top: 1.5rem; 
-        line-height: 1.6;
-        max-width: 900px;
-    '>
-        Track Olympic performance, medal counts, and athlete insights. 
-        Powered by official Paris 2024 data for your analysis.
-    </p>
-    <br>
-    """, 
-    unsafe_allow_html=True
-)
+st.title("Paris 2024 Glory Path Dashboard")
+st.markdown("Explore medal standings, athlete performance, and the competition schedule.")
 
 
 # Show active filters
@@ -286,9 +219,9 @@ with tab1:
             hole=0.4,
             color="Medal",
             color_discrete_map={
-               "Gold": "#E50914",    # Rouge intense
-            "Silver": "#AFAFAF",  # Gris chic
-            "Bronze": "#8B4513"   # Marron profond
+                     "Gold": "#FFD700",
+                     "Silver": "#C0C0C0",
+                     "Bronze": "#CD7F32",
             },
         )
         fig.update_traces(
@@ -322,7 +255,7 @@ with tab2:
             x=top10["Bronze"],
             name="Bronze",
             orientation="h",
-            marker_color="#8B4513",
+            marker_color="#CD7F32",
             text=top10["Bronze"],
             textposition="inside",
         ))
@@ -331,7 +264,7 @@ with tab2:
             x=top10["Silver"],
             name="Silver",
             orientation="h",
-            marker_color="#AFAFAF",
+            marker_color="#C0C0C0",
             text=top10["Silver"],
             textposition="inside",
         ))
@@ -340,7 +273,7 @@ with tab2:
             x=top10["Gold"],
             name="Gold",
             orientation="h",
-            marker_color= "#E50914", 
+            marker_color="#FFD700",
             text=top10["Gold"],
             textposition="inside",
         ))

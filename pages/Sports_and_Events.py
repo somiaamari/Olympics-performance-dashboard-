@@ -1,12 +1,4 @@
-"""
-LA28 Olympics Dashboard - Page 4: Sports and Events (Competition Arena)
-
-Analysis from sports and events perspective.
-Per official requirements:
-- Event Schedule (Gantt/Timeline Chart)
-- Medal Count by Sport (Treemap)
-- Venue Map (Scatter Mapbox)
-"""
+"""Paris 2024 Glory Path Dashboard sports and events analysis."""
 
 import streamlit as st
 import pandas as pd
@@ -17,6 +9,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from utils.data import load_required_csv
 from utils.shared_filters import render_global_filters, apply_filters, get_continent
 from utils.style import apply_custom_style
 
@@ -25,7 +18,7 @@ from utils.style import apply_custom_style
 # =============================================================================
 st.set_page_config(
     layout="wide",
-    page_title="Sports & Events | LA28 Dashboard",
+    page_title="Paris 2024 Glory Path Dashboard",
     page_icon="🏟️",
     initial_sidebar_state="expanded",
 )
@@ -34,49 +27,36 @@ apply_custom_style()
 # =============================================================================
 # DATA LOADING
 # =============================================================================
-DATA_PATH = Path(__file__).parent.parent / "data"
 
 
 @st.cache_data
 def load_schedules():
     """Load schedules data."""
-    try:
-        df = pd.read_csv(DATA_PATH / "schedules.csv")
-        df["start_date"] = pd.to_datetime(df["start_date"], errors="coerce")
-        df["end_date"] = pd.to_datetime(df["end_date"], errors="coerce")
-        return df
-    except Exception as e:
-        return pd.DataFrame()
+    df = load_required_csv("schedules.csv")
+    df["start_date"] = pd.to_datetime(df["start_date"], errors="coerce")
+    df["end_date"] = pd.to_datetime(df["end_date"], errors="coerce")
+    return df
 
 
 @st.cache_data
 def load_medals():
     """Load medals data."""
-    try:
-        df = pd.read_csv(DATA_PATH / "medals.csv")
-        df = df.rename(columns={"country_code": "noc", "medal_type": "medal"})
-        df["medal"] = df["medal"].str.replace(" Medal", "", regex=False)
-        return df
-    except:
-        return pd.DataFrame()
+    df = load_required_csv("medals.csv")
+    df = df.rename(columns={"country_code": "noc", "medal_type": "medal"})
+    df["medal"] = df["medal"].str.replace(" Medal", "", regex=False)
+    return df
 
 
 @st.cache_data
 def load_venues():
     """Load venues data."""
-    try:
-        return pd.read_csv(DATA_PATH / "venues.csv")
-    except:
-        return pd.DataFrame()
+    return load_required_csv("venues.csv")
 
 
 @st.cache_data
 def load_events():
     """Load events data."""
-    try:
-        return pd.read_csv(DATA_PATH / "events.csv")
-    except:
-        return pd.DataFrame()
+    return load_required_csv("events.csv")
 
 
 # Load data
@@ -89,8 +69,7 @@ events_df = load_events()
 # SIDEBAR - GLOBAL FILTERS
 # =============================================================================
 with st.sidebar:
-    st.image("https://upload.wikimedia.org/wikipedia/commons/5/5c/Olympic_rings_without_rims.svg", width=150)
-    st.title("🏟️ Sports & Events")
+    st.title("Paris 2024 Glory Path Dashboard")
     st.divider()
     
     all_sports = sorted(medals_df["discipline"].dropna().unique().tolist()) if not medals_df.empty else []
@@ -98,7 +77,7 @@ with st.sidebar:
     filters = render_global_filters(countries=[], sports=all_sports)
     
     st.divider()
-    st.caption("LA28 Volunteer Selection Challenge")
+    st.caption("Built for the LA28 Volunteer Selection Challenge")
 
 # =============================================================================
 # APPLY FILTERS
@@ -112,7 +91,8 @@ if filters["medal_types"]:
 # =============================================================================
 # HEADER
 # =============================================================================
-st.title("🏟️ Sports & Events Analysis")
+st.title("Paris 2024 Glory Path Dashboard")
+st.subheader("Sports & Events")
 st.markdown("Explore Olympic sports, event schedules, and competition venues.")
 st.divider()
 

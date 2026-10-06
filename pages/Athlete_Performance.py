@@ -1,3 +1,5 @@
+"""Paris 2024 Glory Path Dashboard athlete performance analysis."""
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -9,75 +11,55 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from utils.shared_filters import render_global_filters, apply_filters, get_continent
 from utils.style import apply_custom_style
+from utils.data import load_required_csv
 
 # PAGE CONFIG
 st.set_page_config(
     layout="wide",
-    page_title="Athlete Performance | LA28 Dashboard",
+    page_title="Paris 2024 Glory Path Dashboard",
     page_icon="👤",
     initial_sidebar_state="expanded",
 )
 apply_custom_style()
 
 # DATA LOADING
-DATA_PATH = Path(__file__).parent.parent / "data"
-
-
 @st.cache_data
 def load_athletes():
     """Load athletes data."""
-    try:
-        df = pd.read_csv(DATA_PATH / "athletes.csv")
-        df = df.rename(columns={"country_code": "noc"})
-        # Calculate age from birth_date
-        df["birth_date"] = pd.to_datetime(df["birth_date"], errors="coerce")
-        df["age"] = ((pd.Timestamp("2024-07-26") - df["birth_date"]).dt.days / 365.25).astype(float)
-        return df
-    except Exception as e:
-        st.error(f"Error loading athletes: {e}")
-        return pd.DataFrame()
+    df = load_required_csv("athletes.csv").rename(columns={"country_code": "noc"})
+    df["birth_date"] = pd.to_datetime(df["birth_date"], errors="coerce")
+    df["age"] = ((pd.Timestamp("2024-07-26") - df["birth_date"]).dt.days / 365.25).astype(float)
+    return df
 
 
 @st.cache_data
 def load_medallists():
     """Load medallists data."""
-    try:
-        df = pd.read_csv(DATA_PATH / "medallists.csv")
-        df = df.rename(columns={"country_code": "noc", "medal_type": "medal"})
-        df["medal"] = df["medal"].str.replace(" Medal", "", regex=False)
-        return df
-    except:
-        return pd.DataFrame()
+    df = load_required_csv("medallists.csv")
+    df = df.rename(columns={"country_code": "noc", "medal_type": "medal"})
+    df["medal"] = df["medal"].str.replace(" Medal", "", regex=False)
+    return df
 
 
 @st.cache_data
 def load_medals():
     """Load medals data."""
-    try:
-        df = pd.read_csv(DATA_PATH / "medals.csv")
-        df = df.rename(columns={"country_code": "noc", "medal_type": "medal"})
-        df["medal"] = df["medal"].str.replace(" Medal", "", regex=False)
-        return df
-    except:
-        return pd.DataFrame()
+    df = load_required_csv("medals.csv")
+    df = df.rename(columns={"country_code": "noc", "medal_type": "medal"})
+    df["medal"] = df["medal"].str.replace(" Medal", "", regex=False)
+    return df
 
 
 @st.cache_data
 def load_coaches():
     """Load coaches data."""
-    try:
-        return pd.read_csv(DATA_PATH / "coaches.csv")
-    except:
-        return pd.DataFrame()
+    return load_required_csv("coaches.csv")
 
 
 @st.cache_data
 def load_teams():
     """Load teams data."""
-    try:
-        return pd.read_csv(DATA_PATH / "teams.csv")
-    except:
-        return pd.DataFrame()
+    return load_required_csv("teams.csv")
 
 
 @st.cache_data
@@ -132,8 +114,7 @@ teams_df = load_teams()
 
 # SIDEBAR - GLOBAL FILTERS
 with st.sidebar:
-    st.image("https://upload.wikimedia.org/wikipedia/commons/5/5c/Olympic_rings_without_rims.svg", width=150)
-    st.title("👤 Athletes")
+    st.title("Paris 2024 Glory Path Dashboard")
     st.divider()
     
     all_countries = sorted(athletes_df["noc"].dropna().unique().tolist()) if not athletes_df.empty else []
@@ -142,7 +123,7 @@ with st.sidebar:
     filters = render_global_filters(countries=all_countries, sports=[])
     
     st.divider()
-    st.caption("LA28 Volunteer Selection Challenge")
+    st.caption("Built for the LA28 Volunteer Selection Challenge")
 
 # APPLY FILTERS
 filtered_athletes = athletes_df.copy()
@@ -154,7 +135,8 @@ if filters["continents"]:
 filtered_medallists = apply_filters(medallists_df, filters)
 
 # HEADER
-st.title("👤 Athlete Performance Analysis")
+st.title("Paris 2024 Glory Path Dashboard")
+st.subheader("Athlete Performance")
 st.markdown("Explore individual athlete statistics, demographics, and achievements.")
 st.divider()
 
