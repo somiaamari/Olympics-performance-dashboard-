@@ -272,7 +272,7 @@ else:
 st.divider()
 
 # =============================================================================
-# 3. VENUE MAP (Scatter Mapbox)
+# 3. VENUE MAP
 # =============================================================================
 st.subheader("🗺️ Olympic Venues Map")
 
@@ -291,16 +291,16 @@ if not venues_df.empty:
         venues_map = venues_df.dropna(subset=[lat_col, lon_col])
         
         if not venues_map.empty:
-            fig = px.scatter_map(
+            fig = px.scatter_geo(
                 venues_map,
                 lat=lat_col,
                 lon=lon_col,
                 hover_name="venue" if "venue" in venues_map.columns else venues_map.columns[0],
-                zoom=10,
+                projection="mercator",
+                fitbounds="locations",
                 height=500,
             )
             fig.update_layout(
-                map={"style": "open-street-map"},
                 margin=dict(t=0, b=0, l=0, r=0),
             )
             st.plotly_chart(fig, use_container_width=True, key="venue_map")
@@ -326,21 +326,19 @@ if not venues_df.empty:
             ]
         })
         
-        fig = px.scatter_map(
+        fig = px.scatter_geo(
             paris_venues,
             lat="lat",
             lon="lon",
             hover_name="venue",
             hover_data={"sports": True, "lat": False, "lon": False},
-            zoom=10,
+            projection="mercator",
+            fitbounds="locations",
             height=500,
             size_max=15,
         )
         fig.update_traces(marker=dict(size=15, color="#0033A0"))
-        fig.update_layout(
-            map={"style": "open-street-map"},
-            margin=dict(t=0, b=0, l=0, r=0),
-        )
+        fig.update_layout(margin=dict(t=0, b=0, l=0, r=0))
         st.plotly_chart(fig, use_container_width=True, key="venue_map_paris")
         
         # Also show venues as table
@@ -359,16 +357,17 @@ else:
         "lon": [2.3601, 2.2945, 2.3125, 2.2472, 2.2530, 2.3786],
     })
     
-    fig = px.scatter_map(
+    fig = px.scatter_geo(
         paris_venues,
         lat="lat",
         lon="lon",
         hover_name="venue",
-        zoom=11,
+        projection="mercator",
+        fitbounds="locations",
         height=450,
     )
     fig.update_traces(marker=dict(size=15, color="#0033A0"))
-    fig.update_layout(map={"style": "open-street-map"}, margin=dict(t=0, b=0, l=0, r=0))
+    fig.update_layout(margin=dict(t=0, b=0, l=0, r=0))
     st.plotly_chart(fig, use_container_width=True, key="venue_map_default")
 
 st.divider()
