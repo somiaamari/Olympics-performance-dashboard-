@@ -31,29 +31,9 @@ Held-out results (2,223 athletes; 411 recorded medalists):
 
 The F1 and precision show modest positive-class performance despite reasonable ranking and recall. This is a retrospective Paris 2024 association model, not an LA28 forecast. Roster and medal records may be incomplete, NOC and discipline are strong contextual predictors, and the displayed model score is not calibrated as a probability.
 
-## Data
 
-All 13 CSVs are tracked in Git and are under 100 MB each. Source information is not consistently recorded in the repository; TODO entries require source verification and attribution before publication.
 
-| CSV | Size | Used by app | Source |
-| --- | ---: | --- | --- |
-| `athletes.csv` | 7,234,642 B | Yes | TODO: verify dataset source and license |
-| `coaches.csv` | 94,447 B | Yes | TODO: verify dataset source and license |
-| `events.csv` | 31,953 B | Yes | Olympics.com Paris 2024 sport URLs are embedded; TODO: confirm full dataset provenance |
-| `medallists.csv` | 554,831 B | Yes | TODO: verify dataset source and license |
-| `medals.csv` | 184,913 B | Yes | TODO: verify dataset source and license |
-| `medals_total.csv` | 3,067 B | Yes | TODO: verify dataset source and license |
-| `nocs.csv` | 8,421 B | Yes | TODO: verify dataset source and license |
-| `schedules.csv` | 965,594 B | Yes | TODO: verify dataset source and license |
-| `schedules_preliminary.csv` | 381,129 B | No | TODO: verify dataset source and license |
-| `teams.csv` | 451,048 B | Yes | TODO: verify dataset source and license |
-| `technical_officials.csv` | 94,923 B | No | TODO: verify dataset source and license |
-| `torch_route.csv` | 12,689 B | No | TODO: verify dataset source and license |
-| `venues.csv` | 6,017 B | Yes | TODO: verify dataset source and license |
 
-## Tech Stack
-
-Python 3.11, Streamlit, pandas, Plotly, NumPy, and scikit-learn.
 
 ## Project Structure
 
@@ -98,13 +78,6 @@ streamlit run Overview.py
 ```
 
 
-## Tests
 
-Install development dependencies and run the Streamlit `AppTest` smoke suite:
-
-```bash
-python -m pip install -r requirements.txt -r requirements-dev.txt
-pytest
-```
 
 
