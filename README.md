@@ -2,23 +2,9 @@
 
 An interactive Streamlit dashboard for exploring Paris 2024 athlete profiles, medal outcomes, event schedules, and a measured podium-classification model.
 
-[Live demo](TODO_STREAMLIT_URL)
+[Live demo](https://kcgvxepsappgquxa77memd.streamlit.app/)
 
-## Screenshots
 
-| Overview | Athlete Performance |
-| --- | --- |
-| ![Overview screenshot](assets/screenshot-overview.png) | ![Athlete Performance screenshot](assets/screenshot-athletes.png) |
-
-| Global Analysis | Sports & Events |
-| --- | --- |
-| ![Global Analysis screenshot](assets/screenshot-global-analysis.png) | ![Sports & Events screenshot](assets/screenshot-sports-events.png) |
-
-| Podium Predictor |
-| --- |
-| ![Podium Predictor screenshot](assets/screenshot-podium-predictor.png) |
-
-TODO: Add the five screenshots above after capturing the deployed app.
 
 ## Features
 
@@ -111,12 +97,6 @@ python -m pip install -r requirements.txt -r requirements-dev.txt
 streamlit run Overview.py
 ```
 
-## Deploy on Streamlit Community Cloud
-
-1. Push the `polish` branch to GitHub and select this repository in Streamlit Community Cloud.
-2. Set the main file path to `Overview.py`.
-3. Select Python 3.11. Community Cloud installs the pinned dependencies from `requirements.txt`.
-4. Deploy, then replace `TODO_STREAMLIT_URL` above with the public app URL.
 
 ## Tests
 
@@ -127,8 +107,4 @@ python -m pip install -r requirements.txt -r requirements-dev.txt
 pytest
 ```
 
-GitHub Actions runs the same tests on every push and pull request using Python 3.11.
 
-## Credits
-
-Built for the LA28 Volunteer Selection Challenge.
